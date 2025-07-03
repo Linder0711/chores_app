@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Chore History{% endblock %}
+
+{% block content %}
+  <h1>Chores history</h1>
+<form method="get" action="/chore_history">
+  <label for="start_date">Start Date:</label>
+  <input type="date" id="start_date" name="start_date">
+
+  <label for="end_date">End Date:</label>
+  <input type="date" id="end_date" name="end_date">
+
+  <button type="submit">Filter</button>
+</form>
+<br>
+  <table border="1">
+    <tr>
+      	<th>Name</th>
+	<th>Chore</th>
+	<th>Completed on</th>
+	<th>Points</th>
+
+    </tr>
+	{% for row in chores_data %}
+    <tr>
+        <td>{{ row.Name }}</td>
+        <td>{{ row.Chore }}</td>
+        <td>{{ row['Completed on'] }}</td>
+        <td>{{ row.Points }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
+

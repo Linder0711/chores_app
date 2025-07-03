@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chores App - Login</title>
+</head>
+<body style="background-color: #dff3ff; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+  <div style="
+    background-color: #81c784;
+    padding: 40px 60px;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-align: center;
+  ">
+
+    <h1 style="color: white;">Login to Chores App</h1>
+
+    <form action="{{ url_for('login') }}" method="post">
+      {% if error %}
+        <p style="color: red;">{{ error }}</p>
+      {% endif %}
+
+      <label style="color: white;" for="username">Username:</label><br>
+      <input type="text" id="username" name="username"><br><br>
+
+      <label style="color: white;" for="password">Password:</label><br>
+      <input type="password" id="password" name="password"><br><br>
+
+      <input 
+        type="submit" 
+        value="Login" 
+        style="color: white; background-color: #4fc3f7; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+    </form>
+
+    <br>
+    <a href="{{ url_for('reset_password') }}" style="color: white; text-decoration: underline;">Forgot password?</a>
+    <a href="{{ url_for('signup') }}" style="color: white; text-decoration: underline;">Sign up as a new user</a>
+
+  </div>
+</body>
+</html>

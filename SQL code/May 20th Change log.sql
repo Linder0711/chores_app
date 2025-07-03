@@ -1,0 +1,38 @@
+--May 19th 2025
+--Created Chores database
+--Created tables Users, roles, Familes
+--Imported data via python hand written
+--Queried all 3 tables joined together, works
+
+--May 20th
+--Created Chore frequency table
+--Created Chore list table
+--Updated both tables via Pyton Hand written
+--Queried both tables joined together, works
+
+-- May 25th
+-- Created Assignments table
+-- Created trigger for updating assignments
+-- Created Point tracker table
+-- Created a points update trigger
+-- First test update sent in
+-- Created a trigger for points
+-- Created 2 views for leaderboards
+-- Added Passwords hash to users table
+-- Tested logins using python
+-- Created permissions table
+-- Created Pending chores view
+-- Created Landing page score tracker
+-- Created history of chores completed view
+-- Created Audit log table
+-- Tracked Chore completion
+-- Tracked Chore assignment
+-- Tracked user Creation
+-- Tracked User change
+-- Tested it out. it works so far
+-- Tracked Family creation
+-- Tracked Family change
+
+-- May 27th
+-- User Change trigger.  all triggers now in place.
+-- All update triggers merged into one mega trigger

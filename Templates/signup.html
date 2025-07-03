@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIgn up to the chores app</title>
+</head>
+<body style="background-color: #dff3ff; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+  <div style="
+    background-color: #81c784;
+    padding: 40px 60px;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-align: center;
+  ">
+
+
+  <h1 style="color: white;">Sign Up</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form action="{{ url_for('signup') }}" method="post">
+    <label for="family_name">Family Name:</label><br>
+    <input type="text" id="family_name" name="family_name" required><br><br>
+
+    <label for="admin_name">Admin Username:</label><br>
+    <input type="text" id="admin_name" name="admin_name" required><br><br>
+
+    <label for="admin_password">Admin Password:</label><br>
+    <input type="password" id="admin_password" name="admin_password" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="security_code">Security Code:</label><br>
+    <input type="text" id="security_code" name="security_code" required><br><br>
+
+    <input type="submit" value="Sign Up">
+  </form>
+    <a href="{{ url_for('login') }}" style="color: white; text-decoration: underline;">Back to login</a>
+    <a href="{{ url_for('reset_password') }}" style="color: white; text-decoration: underline;">Forgot password?</a>
+</body>
+</html>

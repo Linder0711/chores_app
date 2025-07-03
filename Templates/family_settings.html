@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Family Settings{% endblock %}
+
+{% block content %}
+  <h1>Family Admin Panel</h1>
+  <p>Change your family name or deactivate the entire account.</p>
+
+  <h2>Current Family Info</h2>
+  <table border="1">
+    <tr>
+      <th>Family Name</th>
+      <th>Active</th>
+    </tr>
+    {% for row in family_info %}
+      <tr>
+        <td>{{ row['family_name'] }}</td>
+        <td>{{ row['active'] }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Change Family Name</h2>
+  <form method="POST">
+    <label for="new_family_name">New Name:</label>
+    <input type="text" name="new_family_name" required>
+    <button type="submit">Update</button>
+  </form>
+
+  <h2>Deactivate Family Account</h2>
+  <form method="POST" onsubmit="return confirm('Are you sure you want to deactivate this family? This will remove access for all users.')">
+    <input type="hidden" name="deactivate" value="1">
+    <button type="submit" style="color:red;">Deactivate Family</button>
+  </form>
+
+{% endblock %}

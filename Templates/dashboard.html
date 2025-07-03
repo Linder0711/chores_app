@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <h1>Welcome to the Dashboard</h1>
+  <p>This is the dashboard page.</p>
+
+<div class="dashboard-grid">
+
+  <div class="dashboard-card">
+  <h2>Chores at a glance</h2>
+  <table border="1">
+    <tr>
+      <th></th>
+      <th>My stats</th>
+      <th>Family Stats</th>
+
+    </tr>
+    {% for row in Top_left %}
+      <tr>
+        <td><Strong>Outstanding chores</strong></td>
+	<td>{{ row['outstanding for me'] }}</td>
+	<td>{{ row['outstanding for Family'] }}</td>
+      </tr>
+      <tr>
+        <td><Strong>Completed today</strong></td>
+	<td>{{ row['Todays points for me'] }}</td>
+	<td>{{ row['Todays points for family'] }}</td>
+      </tr>
+      <tr>
+        <td><Strong>Completed last 7 days</strong></td>
+	<td>{{ row['Todays points for me 7 days'] }}</td>
+	<td>{{ row['Todays points for family 7 days'] }}</td>
+      </tr>
+      <tr>
+        <td><Strong>Completed All time</strong></td>
+	<td>{{ row['My all time chores'] }}</td>
+	<td>{{ row['family all time chores'] }}</td>
+      </tr>
+
+
+
+    {% endfor %}
+  </table>
+</div>
+  <div class="dashboard-card">
+  <h2>Hall of Fame</h2>
+  <table border="1">
+    <tr>
+      <th colspan="2">All time points record</th>
+</tr>
+    {% for row in Top_right1 %}
+      <tr>
+	<td>{{ row['daily'] }}</td>
+       <td>{{ row['points'] }}</td>
+    {% endfor %}
+  </table>
+  <table border="1">
+    <tr>
+      <th colspan="2">Top most days as top points scorer</th>
+</tr>
+    {% for row in Top_right2 %}
+      <tr>
+	<td>{{ row['leader'] }}</td>
+	<td>{{ row['days_as_leader'] }}</td>
+    {% endfor %}
+  </table>
+  <table border="1">
+    <tr>
+      <th colspan="2">Chore Slayer</th>
+</tr>
+    {% for row in Top_right3 %}
+      <tr>
+	<td>{{ row['slayer'] }}</td>
+	<td>{{ row['total'] }}</td>
+    {% endfor %}
+  </table>
+  <table border="1">
+    <tr>
+      <th colspan="2">Streak Chamption</th>
+</tr>
+    {% for row in Top_right4 %}
+      <tr>
+	<td>{{ row['streakl'] }}</td>
+	<td>{{ row['total'] }}</td>
+    {% endfor %}
+  </table>
+</div>
+  <div class="dashboard-card">
+  <h2>Chores Split</h2>
+  <form method="get" action="{{ url_for('dashboard') }}">
+    <select name="range">
+      <option value="My_Chores" {% if selected_range == 'My_Chores' %}selected{% endif %}>My Chores</option>
+      <option value="All_chores" {% if selected_range == 'All_chores' %}selected{% endif %}>All Chores</option>
+    </select>
+    <input type="submit" value="Update">
+  </form>
+
+  <h3>Showing: {{ selected_range.replace('All_chores', 'All Chores').replace('My_Chores', 'My Chores') }}</h3>
+
+  <!-- 🔥 Pie Chart goes here -->
+  <canvas id="pieChart" width="400" height="400"></canvas>
+
+  </div>
+
+<div class="dashboard-card">
+<h2>Last 30 days</h2>
+
+<canvas id="stackedBarChart" width="600" height="400"></canvas>
+</div>
+</div>
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: {{ pie_labels|tojson }},
+        datasets: [{
+          label: 'Chores',
+          data: {{ pie_values|tojson }},
+          backgroundColor: [
+            '#FF6384', '#36A2EB', '#FFCE56',
+            '#4BC0C0', '#9966FF', '#FF9F40',
+            '#E7E9ED', '#76D7C4', '#F7DC6F'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+
+    const stackedCtx = document.getElementById('stackedBarChart').getContext('2d');
+    new Chart(stackedCtx, {
+      type: 'bar',
+      data: {
+        labels: {{ stacked_labels|tojson }},
+        datasets: {{ stacked_datasets|tojson }}
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true, beginAtZero: true }
+        },
+        plugins: {
+          legend: { position: 'bottom' },
+          title: {
+            display: true,
+            text: 'Chore Completions Over Time'
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}
+
+
+
+{% endblock %}
+

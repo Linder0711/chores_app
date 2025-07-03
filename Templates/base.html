@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <title>{% block title %}Chores App{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a> |
+  <a href="{{ url_for('leaderboard') }}">Leaderboard</a> |
+
+  <a href="{{ url_for('active_chores') }}" class="nav-link">
+    Active Chores
+    {% if active_chores is defined and active_chores > 0 %}
+      <span class="badge">{{ active_chores }}</span>
+    {% endif %}
+  </a> |
+
+  <a href="{{ url_for('chore_history') }}">History</a> |
+  <a href="{{ url_for('chore_assignments') }}">Assign</a> |
+
+  {% if role_id == 1 %}
+    <a href="{{ url_for('chore_completions') }}" class="nav-link">
+      Completions
+      {% if chore_completions is defined and chore_completions > 0 %}
+        <span class="badge">{{ chore_completions }}</span>
+      {% endif %}
+    </a> |
+    <a href="{{ url_for('user_settings') }}">Users</a> |
+    <a href="{{ url_for('family_settings') }}">Family Settings</a> |
+  {% endif %}
+
+  <a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+  <hr>
+
+  <div id="main">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+{% block scripts %}{% endblock %}
+<script>
+document.querySelectorAll('button, .btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const rect = button.getBoundingClientRect();
+        for (let i = 0; i < 8; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+
+            // Random direction
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 30 + Math.random() * 20;
+            sparkle.style.setProperty('--x', `${Math.cos(angle) * radius}px`);
+            sparkle.style.setProperty('--y', `${Math.sin(angle) * radius}px`);
+
+            // Position sparkle at click point relative to button
+            sparkle.style.left = `${e.clientX - rect.left}px`;
+            sparkle.style.top = `${e.clientY - rect.top}px`;
+
+            button.appendChild(sparkle);
+
+            // Clean up after animation
+            sparkle.addEventListener('animationend', () => sparkle.remove());
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>

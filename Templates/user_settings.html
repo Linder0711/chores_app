@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}User Admin{% endblock %}
+
+{% block content %}
+  <h1>Welcome to User Admin</h1>
+  <p>Add and change users, add and change custom chores.</p>
+
+  <h2>Add a new user</h2>
+  <form method="POST" action="{{ url_for('user_settings') }}">
+    <input type="hidden" name="action" value="New_user">
+    <label>Username:</label>
+    <input type="text" name="username" required><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" required><br>
+
+    <label>Role:</label>
+    <select name="role">
+      <option value="1">Admin</option>
+      <option value="2">Parent</option>
+      <option value="3">Child</option>
+      <option value="4">Observer</option>
+    </select><br>
+
+    <label><input type="checkbox" name="active" checked> Active</label><br>
+
+    <button type="submit">Add User</button>
+  </form>
+
+  <h2>Current Users</h2>
+  <table border="1">
+    <tr>
+      <th>User Name</th>
+      <th>Role</th>
+      <th>Email</th>
+      <th>Active</th>
+      <th>Update</th>
+    </tr>
+    {% for user in current_users_per_family %}
+    <tr>
+      <form method="POST" action="{{ url_for('user_settings') }}">
+        <input type="hidden" name="action" value="Update_user">
+        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+        <td><input type="text" name="username" value="{{ user['User Name'] }}"></td>
+        <td>
+          <select name="role_id">
+            <option value="1" {% if user['Current Role'] == 'Admin' %}selected{% endif %}>Admin</option>
+            <option value="2" {% if user['Current Role'] == 'Parent' %}selected{% endif %}>Parent</option>
+            <option value="3" {% if user['Current Role'] == 'Child' %}selected{% endif %}>Child</option>
+            <option value="4" {% if user['Current Role'] == 'Observer' %}selected{% endif %}>Observer</option>
+          </select>
+        </td>
+        <td><input type="email" name="email" value="{{ user['email'] }}"></td>
+        <td>
+          <select name="is_active">
+            <option value="1" {% if user['Are they still active?'] == 'Yes' %}selected{% endif %}>Yes</option>
+            <option value="0" {% if user['Are they still active?'] == 'No' %}selected{% endif %}>No</option>
+          </select>
+        </td>
+        <td><button type="submit">Update</button></td>
+      </form>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>New Custom Chore</h2>
+  <form method="POST" action="{{ url_for('user_settings') }}">
+    <input type="hidden" name="action" value="Chore_name">
+    <label>Chore Description:</label>
+    <input type="text" name="Chore_name" required><br>
+    <button type="submit">Add Custom Chore</button>
+  </form>
+
+  <h2>Current Custom Chores</h2>
+  <table border="1">
+    <tr>
+      <th>Chore</th>
+      <th>Live</th>
+      <th>Update</th>
+    </tr>
+    {% for chore in family_chores %}
+    <tr>
+      <form method="POST" action="{{ url_for('user_settings') }}">
+        <input type="hidden" name="action" value="Update_chore">
+        <input type="hidden" name="chore_id" value="{{ chore.chore_id }}">
+        <td><input type="text" name="chore_name" value="{{ chore['chore'] }}"></td>
+        <td>
+          <select name="is_active">
+            <option value="1" {% if chore['live'] == 'yes' %}selected{% endif %}>Yes</option>
+            <option value="0" {% if chore['live'] == 'no' %}selected{% endif %}>No</option>
+          </select>
+        </td>
+        <td><button type="submit">Update</button></td>
+      </form>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

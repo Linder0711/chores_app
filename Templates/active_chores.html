@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Active chores{% endblock %}
+
+{% block content %}
+
+  <h1>My current chores</h1>
+  <table border="1">
+    <tr>
+      	<th>Name</th>
+	<th>Chore</th>
+	<th>Set When</th>
+	<th>Completion_Status</th>
+
+    </tr>
+	{% for row in current_user_chores %}
+<tr>
+  <td>{{ row.Name }}</td>
+  <td>{{ row.Chore }}</td>
+  <td>{{ row['Set when'] }}</td>
+  <td>{{ row.Completion_Status }}</td>
+<td>
+  {% if row.Completion_Status == 'Pending' %}
+    <form method="POST" action="{{ url_for('active_chores') }}">
+      <input type="hidden" name="assignment_id" value="{{ row.assignment_id }}">
+      <button type="submit">Submit for Approval</button>
+    </form>
+  {% elif row.Completion_Status == 'Submitted' %}
+    Waiting for Approval
+  {% elif row.Completion_Status == 'Sent Back' %}
+        <form method="POST" action="{{ url_for('active_chores') }}">
+      <input type="hidden" name="assignment_id" value="{{ row.assignment_id }}">
+      <button type="submit">Submit for Approval</button>
+    </form>
+  {% else %}
+    {{ row.Completion_Status }}
+  {% endif %}
+</td>
+</tr>
+
+    {% endfor %}
+  </table>
+
+  <h2>Other current chores</h2>
+  <table border="1">
+    <tr>
+      	<th>Name</th>
+	<th>Chore</th>
+	<th>Set When</th>
+	<th>Completion_Status</th>
+
+    </tr>
+	{% for row in other_user_chores %}
+<tr>
+  <td>{{ row.Name }}</td>
+  <td>{{ row.Chore }}</td>
+  <td>{{ row['Set when'] }}</td>
+  <td>{{ row.Completion_Status }}</td>
+  <td>
+    {% if row.Completion_Status == 'Pending' %}
+      <form method="POST" action="{{ url_for('active_chores') }}">
+        <input type="hidden" name="assignment_id" value="{{ row.assignment_id }}">
+        <button type="submit">Submit for Approval</button>
+      </form>
+    {% elif row.Completion_Status == 'Submitted' %}
+      Waiting for Approval
+    {% else %}
+      <!-- Future statuses -->
+      {{ row.Completion_Status }}
+    {% endif %}
+  </td>
+</tr>
+    {% endfor %}
+  </table>
+{% endblock %}

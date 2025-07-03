@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Complete chores{% endblock %}
+
+{% block content %}
+  <h1>Submitted chores</h1>
+<form method="POST" action="{{ url_for('chore_completions') }}">
+    <input type="hidden" name="action" value="approve_all">
+    <button type="submit">Approve All</button>
+</form>
+
+  <table border="1">
+    <tr>
+      	<th>Name</th>
+	<th>Chore</th>
+	<th>Set When</th>
+	<th>Completion_Status</th>
+
+    </tr>
+	{% for row in Submitted_chores %}
+<tr>
+  <td>{{ row.Name }}</td>
+  <td>{{ row.Chore }}</td>
+  <td>{{ row['Set when'] }}</td>
+  <td>{{ row.Completion_Status }}</td>
+<td>
+  {% if row.Completion_Status == 'Submitted' %}
+    <form method="POST" action="{{ url_for('chore_completions') }}">
+      <input type="hidden" name="assignment_id" value="{{ row.assignment_id }}">
+      <input type="hidden" name="action" value="approve">
+      <button type="submit">Approve</button>
+    </form>
+    <form method="POST" action="{{ url_for('chore_completions') }}">
+      <input type="hidden" name="assignment_id" value="{{ row.assignment_id }}">
+      <input type="hidden" name="action" value="send_back">
+      <button type="submit">Send Back</button>
+    </form>
+    <form method="POST" action="{{ url_for('chore_completions') }}">
+      <input type="hidden" name="assignment_id" value="{{ row.assignment_id }}">
+      <input type="hidden" name="action" value="delete">
+      <button type="submit">Delete</button>
+    </form>
+  {% elif row.Completion_Status == 'Complete' %}
+    Approved
+  {% else %}
+    {{ row.Completion_Status }}
+  {% endif %}
+</td>
+</tr>
+
+    {% endfor %}
+  </table>
+{% endblock %}
