@@ -8,7 +8,7 @@ from pathlib import Path
 base_dir = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=base_dir / '.env')
 
-conn_str = os.getenv("CONN_STR")
+conn_str = "Driver={ODBC Driver 17 for SQL Server};Server=tcp:YOURSERVER.database.windows.net,1433;Database=Chores;Uid=YOURUSER;Pwd=YOURPASS;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 import os
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
