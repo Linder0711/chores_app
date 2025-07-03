@@ -9,7 +9,7 @@ base_dir = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=base_dir / '.env')
 
 conn_str = os.getenv("CONN_STR")
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 app.secret_key = '4be5b4b95f0c076bc1bb51bfdc45e48794046c281d2f95060c4b2d9cf3d757b9'
 
