@@ -1,21 +1,30 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
 import pyodbc
 import os
-from dotenv import load_dotenv
 from pathlib import Path
 
-# Load .env from same directory as app.py
+# Optional: Still load .env for future use, but it's not active
 base_dir = Path(__file__).resolve().parent
-load_dotenv(dotenv_path=base_dir / '.env')
+# from dotenv import load_dotenv
+# load_dotenv(dotenv_path=base_dir / '.env')
 
-conn_str = "Driver={ODBC Driver 17 for SQL Server};Server=tcp:YOURSERVER.database.windows.net,1433;Database=Chores;Uid=YOURUSER;Pwd=YOURPASS;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
-import os
+# 🔥 HARD-CODED WORKING CONNECTION STRING
+conn_str = (
+    "Driver={ODBC Driver 17 for SQL Server};"
+    "Server=tcp:chores-app-server.database.windows.net,1433;"
+    "Database=Chores_app;"
+    "Uid=linders0711@chores-app-server;"
+    "Pwd=Dragontattoo88!;"
+    "Encrypt=yes;"
+    "TrustServerCertificate=no;"
+    "Connection Timeout=30;"
+)
+
+# Flask app config with correct folders
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
-print("Templates:", os.listdir(template_dir))
-print("Current directory:", os.getcwd())
 app.secret_key = '4be5b4b95f0c076bc1bb51bfdc45e48794046c281d2f95060c4b2d9cf3d757b9'
 
 VALID_SIGNUP_CODE = "SECRET123"
