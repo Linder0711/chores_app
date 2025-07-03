@@ -10,7 +10,9 @@ load_dotenv(dotenv_path=base_dir / '.env')
 
 conn_str = os.getenv("CONN_STR")
 app = Flask(__name__, template_folder='templates')
-
+import os
+print("TEMPLATE FOLDER ABS PATH:", os.path.abspath(app.template_folder))
+print("CONTENTS OF TEMPLATE DIR:", os.listdir(app.template_folder))
 app.secret_key = '4be5b4b95f0c076bc1bb51bfdc45e48794046c281d2f95060c4b2d9cf3d757b9'
 
 VALID_SIGNUP_CODE = "SECRET123"
