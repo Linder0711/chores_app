@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: chores_app
+    name: chores-app
     env: python
     plan: free
     buildCommand: ""
