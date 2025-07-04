@@ -607,7 +607,7 @@ def active_chores():
     conn.close()
     
     return render_template(
-        'Active_chores.html',
+        'active_chores.html',
         current_user_chores=current_user_chores,
         other_user_chores=other_user_chores,
         active_chores=my_active_chores
